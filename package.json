@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@serialport/parser-readline": "^10.3.0",
-    "bootstrap-vue": "2.0.0-rc.16",
+    "bootstrap-vue": "^2.21.2",
     "serialport": "^10.4.0",
     "vue-template-babel-compiler": "^1.1.3"
   }

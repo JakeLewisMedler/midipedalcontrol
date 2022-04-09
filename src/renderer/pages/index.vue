@@ -2,26 +2,31 @@
   <div>
     <b-col class="mt-3">
       <h1>Devices</h1>
-      <b-button variant="primary" class="mb-3" @click="getDevices()"
-        >Refresh</b-button
-      >
-      <b-row v-for="(device, index) in devices" v-bind:key="index"
-        ><b-col>
-          <h5>Serial Number</h5>
-          <b-form-input :value="device.serialNumber" readonly></b-form-input
-        ></b-col>
-        <b-col>
-          <h5>Actions</h5>
-          <b-button @click="gotoControl(device)">Control</b-button>
-        </b-col>
-      </b-row></b-col
-    >
+      <b-button class="mb-3" @click="getDevices()">Refresh</b-button>
+
+      <table>
+        <tr>
+          <th>Serial Number</th>
+          <th>Actions</th>
+        </tr>
+        <tr v-for="(device, index) in devices" :key="index">
+          <td>{{ device.serialNumber }}</td>
+          <td>
+            <b-button @click="gotoControl(device)">Control</b-button>
+            <b-button variant="danger" @click="resetDevice(device)"
+              >Reset</b-button
+            >
+          </td>
+        </tr>
+      </table>
+    </b-col>
   </div>
 </template>
 
 <script>
 export default {
   mounted() {
+    this.$serial.disconnect();
     this.getDevices();
   },
   data() {
@@ -38,8 +43,41 @@ export default {
       this.$global.device = device;
       this.$router.push("/control");
     },
+    async resetDevice(device) {
+      if (confirm("Really reset device?")) {
+        await this.$serial.resetDevice(device);
+        alert("Device Reset");
+      }
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table td,
+table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tr:hover {
+  background-color: #ddd;
+}
+table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
+}
+</style>
