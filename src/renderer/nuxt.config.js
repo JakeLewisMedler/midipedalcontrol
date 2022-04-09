@@ -14,6 +14,14 @@ module.exports = {
   loading: false,
   plugins: ["~/plugins/serial.js", "~/plugins/global.js"],
   buildModules: [],
+  build: {
+    hotMiddleware: {
+      client: {
+        autoConnect: false,
+      },
+    },
+    indicator: false,
+  },
   modules: ["bootstrap-vue/nuxt"],
   components: true,
 };
