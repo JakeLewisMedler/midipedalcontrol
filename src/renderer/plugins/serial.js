@@ -43,10 +43,10 @@ export default (ctx, inject) => {
     }
   };
 
-  const testPedal = (port, pedal) => {
+  const testPedal = (port, pedal, value) => {
     let pedalId = pedal.id.toString().padStart(3, "0");
-    let value = pedal.value.toString().padStart(3, "0");
-    let command = `002001${pedalId}${value}`;
+    let valueData = value.toString().padStart(3, "0");
+    let command = `002001${pedalId}${valueData}`;
     console.log(command);
     port.send(command);
   };
@@ -82,7 +82,7 @@ export default (ctx, inject) => {
       port.send = (message) => sendMessage(port, message);
       port.getSettings = () => getSettings(port);
       port.updatePedal = (pedal, mode) => updatePedal(port, pedal, mode);
-      port.testPedal = (pedal, value) => testPedal(port, pedal);
+      port.testPedal = (pedal, value) => testPedal(port, pedal, value);
 
       port.on("close", () => {
         console.log("Port Closed");

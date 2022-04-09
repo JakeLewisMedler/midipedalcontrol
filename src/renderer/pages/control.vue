@@ -43,14 +43,18 @@
           >
             Foot Switch
           </button>
-          <input
+          <div
             v-else-if="pedal.mode == 2"
-            type="range"
-            min="0"
-            max="127"
-            v-model="pedal.value"
-            @input="testPedal(pedal)"
-          />
+            class="volume__pedal__container"
+            draggable="true"
+            @dragstart="dragstart($event, pedal)"
+            @drag="drag"
+          >
+            <div
+              :style="`height:${(pedal.value / 127) * 100}%`"
+              class="volume__pedal"
+            ></div>
+          </div>
         </div>
       </div>
     </div>
@@ -83,21 +87,49 @@ export default {
         { value: 1, text: "Mode 1 - Switched" },
         { value: 2, text: "Mode 2 - Variable" },
       ],
+      dragY: 0,
+      dragValue: null,
+      dragPedal: null,
+      dragSensitivity: 2,
     };
   },
   methods: {
+    dragstart(e, pedal) {
+      var crt = e.target.cloneNode(true);
+      crt.style.opacity = 0;
+      document.body.appendChild(crt);
+      e.dataTransfer.setDragImage(crt, 0, 0);
+      this.dragY = e.clientY;
+      this.dragPedal = pedal;
+    },
+    drag(event) {
+      if (event.clientY == 0) return;
+      let newValue =
+        (this.dragY - event.clientY) * this.dragSensitivity +
+        this.dragPedal.value;
+
+      if (newValue > 127) newValue = 127;
+      else if (newValue < 0) newValue = 0;
+
+      if (newValue != this.dragValue) {
+        this.testPedal(this.dragPedal, newValue);
+      }
+      this.dragValue = newValue;
+    },
     connect() {
       this.$serial.connect();
       this.$serial.port.on("open", () => {
         this.$serial.port.getSettings();
+      });
+      this.$serial.port.on("close", () => {
+        this.$router.push("/");
       });
     },
     updatePedal(pedal, setting) {
       this.$serial.port.updatePedal(pedal, setting);
     },
     testPedal(pedal, value) {
-      if (value != null) pedal.value = value;
-      this.$serial.port.testPedal(pedal);
+      this.$serial.port.testPedal(pedal, value);
     },
   },
 };
@@ -129,5 +161,20 @@ export default {
 
 .container {
   margin: 10px;
+}
+
+.volume__pedal__container {
+  cursor: pointer;
+  width: 36px;
+  height: 59px;
+  background: #666;
+  position: relative;
+  padding: 5px;
+  display: flex;
+  align-items: flex-end;
+}
+.volume__pedal {
+  width: 100%;
+  background: white;
 }
 </style>
