@@ -4,24 +4,16 @@
  * @link {https://nuxtjs.org/guide/configuration/}
  */
 
-
 module.exports = {
   ssr: false,
-  target: 'static',
+  target: "static",
   head: {
-    title: 'midipedal',
-    meta: [{ charset: "utf-8" }]
+    title: "midipedal",
+    meta: [{ charset: "utf-8" }],
   },
   loading: false,
-  plugins: [
-    
-    
-    
-  ],
-  buildModules: [
-    
-  ],
-  modules: [
-    
-  ],
+  plugins: ["~/plugins/serial.js", "~/plugins/global.js"],
+  buildModules: [],
+  modules: ["bootstrap-vue/nuxt"],
+  components: true,
 };

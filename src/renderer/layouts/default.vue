@@ -1,17 +1,12 @@
 <template>
   <div>
-    <app-header />
+    <Header />
     <nuxt />
   </div>
 </template>
 
 <script>
-import appHeader from '@/components/header'
-
-export default {
-  name: 'DefaultLayout',
-  components: { appHeader }
-}
+export default {};
 </script>
 
 <style>
