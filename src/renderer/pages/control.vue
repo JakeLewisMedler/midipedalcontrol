@@ -37,7 +37,7 @@
           <h3>Test</h3>
           <button
             v-if="pedal.mode == 1"
-            class="switch__button"
+            :class="`switch__button ${pedal.value == 127 ? 'pressed' : ''}`"
             @mousedown="testPedal(pedal, 127)"
             @mouseup="testPedal(pedal, 0)"
           >
@@ -111,7 +111,7 @@ export default {
   height: 50px;
 }
 
-.switch__button:active {
+.switch__button.pressed {
   background: rgb(255, 99, 99);
 }
 .content {
