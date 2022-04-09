@@ -22,6 +22,5 @@ module.exports = {
     },
     indicator: false,
   },
-  modules: ["bootstrap-vue/nuxt"],
   components: true,
 };

@@ -1,65 +1,59 @@
 <template>
-  <div>
-    <b-col class="mt-3">
-      <h1 class="mb-3">Control</h1>
-      <b-row>
-        <b-col v-if="port">
-          <b-card
-            v-for="(pedal, index) in port.settings"
-            :key="index"
-            :title="`Pedal ${pedal.id}`"
+  <div class="container" v-if="port">
+    <h1 class="mb-3">Control</h1>
+    <div
+      class="card pedal"
+      v-for="(pedal, index) in port.settings"
+      :key="index"
+    >
+      <h2>Pedal {{ pedal.id }}</h2>
+      <div class="content">
+        <div class="card settings">
+          <h3>Settings</h3>
+          <div>
+            <label>Mode:</label>
+            <select v-model="pedal.mode" @change="updatePedal(pedal, 'mode')">
+              <option
+                v-for="(mode, index) in modeOptions"
+                :key="index"
+                :value="mode.value"
+              >
+                {{ mode.text }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label>CC:</label>
+            <input
+              type="number"
+              min="0"
+              max="127"
+              v-model="pedal.cc"
+              @change="updatePedal(pedal, 'cc')"
+            />
+          </div>
+        </div>
+        <div class="card test">
+          <h3>Test</h3>
+          <button
+            v-if="pedal.mode == 1"
+            class="switch__button"
+            @mousedown="testPedal(pedal, 127)"
+            @mouseup="testPedal(pedal, 0)"
           >
-            <b-row
-              ><b-col>
-                <b-card sub-title="Settings">
-                  <div>
-                    <label>Mode:</label>
-                    <select
-                      v-model="pedal.mode"
-                      @change="updatePedal(pedal, 'mode')"
-                    >
-                      <option
-                        v-for="(mode, index) in modeOptions"
-                        :key="index"
-                        :value="mode.value"
-                      >
-                        {{ mode.text }}
-                      </option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>CC:</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="127"
-                      v-model="pedal.cc"
-                      @change="updatePedal(pedal, 'cc')"
-                    />
-                  </div> </b-card></b-col
-              ><b-col>
-                <b-card sub-title="Test">
-                  <button
-                    v-if="pedal.mode == 1"
-                    class="switch__button"
-                    @mousedown="testPedal(pedal, 127)"
-                    @mouseup="testPedal(pedal, 0)"
-                  >
-                    Foot Switch
-                  </button>
-                  <input
-                    v-else-if="pedal.mode == 2"
-                    type="range"
-                    min="0"
-                    max="127"
-                    v-model="pedal.value"
-                    @input="testPedal(pedal)"
-                  />
-                </b-card> </b-col
-            ></b-row> </b-card
-        ></b-col>
-      </b-row>
-    </b-col>
+            Foot Switch
+          </button>
+          <input
+            v-else-if="pedal.mode == 2"
+            type="range"
+            min="0"
+            max="127"
+            v-model="pedal.value"
+            @input="testPedal(pedal)"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -119,5 +113,21 @@ export default {
 
 .switch__button:active {
   background: rgb(255, 99, 99);
+}
+.content {
+  display: flex;
+}
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  flex-grow: 1;
+}
+.card.settings div {
+  margin-bottom: 6px;
+}
+
+.container {
+  margin: 10px;
 }
 </style>

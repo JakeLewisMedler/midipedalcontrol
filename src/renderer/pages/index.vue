@@ -1,25 +1,21 @@
 <template>
-  <div>
-    <b-col class="mt-3">
-      <h1>Devices</h1>
-      <b-button class="mb-3" @click="getDevices()">Refresh</b-button>
+  <div class="container">
+    <h1>Devices</h1>
+    <button @click="getDevices()">Refresh</button>
 
-      <table>
-        <tr>
-          <th>Serial Number</th>
-          <th>Actions</th>
-        </tr>
-        <tr v-for="(device, index) in devices" :key="index">
-          <td>{{ device.serialNumber }}</td>
-          <td>
-            <b-button @click="gotoControl(device)">Control</b-button>
-            <b-button variant="danger" @click="resetDevice(device)"
-              >Reset</b-button
-            >
-          </td>
-        </tr>
-      </table>
-    </b-col>
+    <table>
+      <tr>
+        <th>Serial Number</th>
+        <th>Actions</th>
+      </tr>
+      <tr v-for="(device, index) in devices" :key="index">
+        <td>{{ device.serialNumber }}</td>
+        <td>
+          <button @click="gotoControl(device)">Control</button>
+          <button variant="danger" @click="resetDevice(device)">Reset</button>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -54,6 +50,9 @@ export default {
 </script>
 
 <style>
+.container {
+  margin: 10px;
+}
 table {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
