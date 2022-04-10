@@ -15,8 +15,9 @@
         <div class="card settings">
           <h3>Settings</h3>
           <div>
-            <label>Enabled:</label>
+            <label>Input Enabled:</label>
             <input
+              :disabled="!pedal.connected"
               type="checkbox"
               v-model="pedal.enabled"
               @change="updatePedal(pedal, 'enabled')"
@@ -77,11 +78,11 @@
           </div>
         </div>
         <div class="card test">
-          <h3 v-if="pedal.connected">Monitor Input</h3>
+          <h3 v-if="pedal.connected && pedal.enabled">Monitor Input</h3>
           <h3 v-else>Control Input</h3>
           <button
             v-if="pedal.mode == 1"
-            :disabled="pedal.connected"
+            :disabled="pedal.connected && pedal.enabled"
             :class="`switch__button ${pedal.value == 127 ? 'pressed' : ''}`"
             @mousedown="testPedal(pedal, 127)"
             @mouseup="testPedal(pedal, 0)"
@@ -91,7 +92,7 @@
           <div
             v-else-if="pedal.mode == 2"
             class="volume__pedal__container"
-            :draggable="!pedal.connected"
+            :draggable="!pedal.connected && !pedal.enabled"
             @dragstart="dragstart($event, pedal)"
             @drag="drag"
           >

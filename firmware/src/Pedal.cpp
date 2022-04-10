@@ -79,11 +79,12 @@ bool Pedal::hasBeenUpdated(){
 
 void Pedal::checkInput(){
 	bool newconnected = digitalRead(pinSense);
-	if(!newconnected && connected){
+	if(newconnected != connected){
 		setValue(0);
+		_updated = true;
 	}
 	connected = newconnected;
-	if(connected){
+	if(connected && enabled){
 		uint8_t readPin = mode==1?pinA:type==1?pinB:pinA;
 		int readValue = analogRead(readPin) >> 3;
 		setValue(readValue);

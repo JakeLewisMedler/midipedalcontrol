@@ -47,12 +47,10 @@ void loop() {
   delay(20);
   checkSerial();
   for (int i = 0; i < 4; i++){
-    if(pedals[i].enabled){
-      pedals[i].checkInput();
-      if (pedals[i].hasBeenUpdated()){
-        outputStatus();
-        sendPedalMidi(i+1);
-      }
+    pedals[i].checkInput();
+    if (pedals[i].hasBeenUpdated()){
+      outputStatus();
+      sendPedalMidi(i+1);
     }
   }
 
