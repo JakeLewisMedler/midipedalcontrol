@@ -48,6 +48,10 @@ void Pedal::setValue(int newValue){
 		_updated = true;
 	}
 }
+void Pedal::setEnabled(bool newEnabled){		
+	_updated = true;
+	enabled = newEnabled;
+}
 
 void Pedal::setMode(int newMode){
 	_updated = true;
@@ -74,12 +78,12 @@ bool Pedal::hasBeenUpdated(){
 
 
 void Pedal::checkInput(){
-	bool newEnabled = digitalRead(pinSense);
-	if(!newEnabled && enabled){
+	bool newconnected = digitalRead(pinSense);
+	if(!newconnected && connected){
 		setValue(0);
 	}
-	enabled = newEnabled;
-	if(enabled){
+	connected = newconnected;
+	if(connected){
 		uint8_t readPin = mode==1?pinA:type==1?pinB:pinA;
 		int readValue = analogRead(readPin) >> 3;
 		setValue(readValue);

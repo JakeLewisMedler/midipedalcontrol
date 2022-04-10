@@ -15,6 +15,7 @@ class Pedal
     void setType(int newType);
     void setPolarity(int newPolarity);
     void setValue(int newValue);
+    void setEnabled(bool newEnabled);
 
     bool hasBeenUpdated();
     void checkInput();
@@ -31,6 +32,7 @@ class Pedal
     int mode = 1;
     int type = 1;
     int value = 0;
+    bool connected = false;
     bool enabled = false;
     int polarity = 1;
 

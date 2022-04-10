@@ -52,6 +52,12 @@ export default (ctx, inject) => {
       let command = `001001${pedalId}004${polarity}`;
       console.log(command);
       port.send(command);
+    } else if (setting == "enabled") {
+      let pedalId = pedal.id.toString().padStart(3, "0");
+      let enabled = (pedal.enabled ? 1 : 0).toString().padStart(3, "0");
+      let command = `001001${pedalId}005${enabled}`;
+      console.log(command);
+      port.send(command);
     }
   };
 
@@ -79,10 +85,11 @@ export default (ctx, inject) => {
       params.id = index + 1;
       params.mode = parseInt(pedalData[0]);
       params.type = parseInt(pedalData[1]);
-      params.enabled = !!parseInt(pedalData[2]);
-      params.polarity = parseInt(pedalData[3]);
-      params.cc = parseInt(pedalData[4]);
-      params.value = parseInt(pedalData[5]);
+      params.connected = !!parseInt(pedalData[2]);
+      params.enabled = !!parseInt(pedalData[3]);
+      params.polarity = parseInt(pedalData[4]);
+      params.cc = parseInt(pedalData[5]);
+      params.value = parseInt(pedalData[6]);
       return params;
     });
   };

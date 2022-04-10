@@ -46,11 +46,13 @@ int value = 0;
 void loop() {
   delay(20);
   checkSerial();
-  for (int i = 0; i < 2; i++){
-    pedals[i].checkInput();
-    if (pedals[i].hasBeenUpdated()){
-      outputStatus();
-      sendPedalMidi(i+1);
+  for (int i = 0; i < 4; i++){
+    if(pedals[i].enabled){
+      pedals[i].checkInput();
+      if (pedals[i].hasBeenUpdated()){
+        outputStatus();
+        sendPedalMidi(i+1);
+      }
     }
   }
 
@@ -73,6 +75,8 @@ void printDisplayData(){
   Serial.print(pedals[0].mode);
   Serial.print(" T");
   Serial.print(pedals[0].type);
+  Serial.print(" C");
+  Serial.print(pedals[0].connected?1:0);
   Serial.print(" E");
   Serial.print(pedals[0].enabled?1:0);
   Serial.print(" P");
@@ -86,6 +90,8 @@ void printDisplayData(){
   Serial.print(pedals[1].mode);
   Serial.print(" T");
   Serial.print(pedals[1].type);
+  Serial.print(" C");
+  Serial.print(pedals[1].connected?1:0);
   Serial.print(" E");
   Serial.print(pedals[1].enabled?1:0);
   Serial.print(" P");
@@ -99,6 +105,8 @@ void printDisplayData(){
   Serial.print(pedals[2].mode);
   Serial.print(" T");
   Serial.print(pedals[2].type);
+  Serial.print(" C");
+  Serial.print(pedals[2].connected?1:0);
   Serial.print(" E");
   Serial.print(pedals[2].enabled?1:0);
   Serial.print(" P");
@@ -112,6 +120,8 @@ void printDisplayData(){
   Serial.print(pedals[3].mode);
   Serial.print(" T");
   Serial.print(pedals[3].type);
+  Serial.print(" C");
+  Serial.print(pedals[3].connected?1:0);
   Serial.print(" E");
   Serial.print(pedals[3].enabled?1:0);
   Serial.print(" P");
@@ -128,6 +138,8 @@ void outputStatus(){
   Serial.print(",");
   Serial.print(pedals[0].type);
   Serial.print(",");
+  Serial.print(pedals[0].connected?1:0);
+  Serial.print(",");
   Serial.print(pedals[0].enabled?1:0);
   Serial.print(",");
   Serial.print(pedals[0].polarity);
@@ -140,6 +152,8 @@ void outputStatus(){
   Serial.print(pedals[1].mode);
   Serial.print(",");
   Serial.print(pedals[1].type);
+  Serial.print(",");
+  Serial.print(pedals[1].connected?1:0);
   Serial.print(",");
   Serial.print(pedals[1].enabled?1:0);
   Serial.print(",");
@@ -154,6 +168,8 @@ void outputStatus(){
   Serial.print(",");
   Serial.print(pedals[2].type);
   Serial.print(",");
+  Serial.print(pedals[2].connected?1:0);
+  Serial.print(",");
   Serial.print(pedals[2].enabled?1:0);
   Serial.print(",");
   Serial.print(pedals[2].polarity);
@@ -166,6 +182,8 @@ void outputStatus(){
   Serial.print(pedals[3].mode);
   Serial.print(",");
   Serial.print(pedals[3].type);
+  Serial.print(",");
+  Serial.print(pedals[3].connected?1:0);
   Serial.print(",");
   Serial.print(pedals[3].enabled?1:0);
   Serial.print(",");
@@ -214,6 +232,14 @@ void handleSerialMessage(String message){
         Serial.print(" to Polarity: ");
         Serial.println(value);
         pedals[pedalId-1].setPolarity(value);
+        EEPROM.put(0, pedals);
+      }
+      if(parameter==5){
+        Serial.print("Setting Pedal: ");
+        Serial.print(pedalId);
+        Serial.print(" to Enabled: ");
+        Serial.println(value);
+        pedals[pedalId-1].setEnabled(value==1);
         EEPROM.put(0, pedals);
       }
     }

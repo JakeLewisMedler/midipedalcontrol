@@ -8,12 +8,20 @@
     >
       <div class="header">
         <h2>Pedal {{ pedal.id }}</h2>
-        <div :class="`status ${pedal.enabled ? 'enabled' : ''}`"></div>
+        <div :class="`status ${pedal.connected ? 'connected' : ''}`"></div>
       </div>
 
       <div class="content">
         <div class="card settings">
           <h3>Settings</h3>
+          <div>
+            <label>Enabled:</label>
+            <input
+              type="checkbox"
+              v-model="pedal.enabled"
+              @change="updatePedal(pedal, 'enabled')"
+            />
+          </div>
           <div>
             <label>Mode:</label>
             <select v-model="pedal.mode" @change="updatePedal(pedal, 'mode')">
@@ -69,11 +77,11 @@
           </div>
         </div>
         <div class="card test">
-          <h3 v-if="pedal.enabled">Monitor Input</h3>
+          <h3 v-if="pedal.connected">Monitor Input</h3>
           <h3 v-else>Control Input</h3>
           <button
             v-if="pedal.mode == 1"
-            :disabled="pedal.enabled"
+            :disabled="pedal.connected"
             :class="`switch__button ${pedal.value == 127 ? 'pressed' : ''}`"
             @mousedown="testPedal(pedal, 127)"
             @mouseup="testPedal(pedal, 0)"
@@ -83,7 +91,7 @@
           <div
             v-else-if="pedal.mode == 2"
             class="volume__pedal__container"
-            :draggable="!pedal.enabled"
+            :draggable="!pedal.connected"
             @dragstart="dragstart($event, pedal)"
             @drag="drag"
           >
@@ -236,7 +244,7 @@ export default {
   background: red;
 }
 
-.status.enabled {
+.status.connected {
   background: green;
 }
 
