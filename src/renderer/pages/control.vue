@@ -92,7 +92,7 @@
           <div
             v-else-if="pedal.mode == 2"
             class="volume__pedal__container"
-            :draggable="!pedal.connected && !pedal.enabled"
+            :draggable="!pedal.connected || !pedal.enabled"
             @dragstart="dragstart($event, pedal)"
             @drag="drag"
           >
