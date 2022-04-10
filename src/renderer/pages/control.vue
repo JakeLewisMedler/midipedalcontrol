@@ -6,7 +6,11 @@
       v-for="(pedal, index) in port.settings"
       :key="index"
     >
-      <h2>Pedal {{ pedal.id }}</h2>
+      <div class="header">
+        <h2>Pedal {{ pedal.id }}</h2>
+        <div :class="`status ${pedal.enabled ? 'enabled' : ''}`"></div>
+      </div>
+
       <div class="content">
         <div class="card settings">
           <h3>Settings</h3>
@@ -23,6 +27,18 @@
             </select>
           </div>
           <div>
+            <label>Type:</label>
+            <select v-model="pedal.type" @change="updatePedal(pedal, 'type')">
+              <option
+                v-for="(type, index) in typeOptions"
+                :key="index"
+                :value="type.value"
+              >
+                {{ type.text }}
+              </option>
+            </select>
+          </div>
+          <div>
             <label>CC:</label>
             <input
               type="number"
@@ -34,9 +50,11 @@
           </div>
         </div>
         <div class="card test">
-          <h3>Test</h3>
+          <h3 v-if="pedal.enabled">Monitor Input</h3>
+          <h3 v-else>Control Input</h3>
           <button
             v-if="pedal.mode == 1"
+            :disabled="pedal.enabled"
             :class="`switch__button ${pedal.value == 127 ? 'pressed' : ''}`"
             @mousedown="testPedal(pedal, 127)"
             @mouseup="testPedal(pedal, 0)"
@@ -46,7 +64,7 @@
           <div
             v-else-if="pedal.mode == 2"
             class="volume__pedal__container"
-            draggable="true"
+            :draggable="!pedal.enabled"
             @dragstart="dragstart($event, pedal)"
             @drag="drag"
           >
@@ -86,6 +104,10 @@ export default {
       modeOptions: [
         { value: 1, text: "Mode 1 - Switched" },
         { value: 2, text: "Mode 2 - Variable" },
+      ],
+      typeOptions: [
+        { value: 1, text: "Type 1 - Yamaha" },
+        { value: 2, text: "Type 2 - Roland" },
       ],
       dragY: 0,
       dragValue: null,
@@ -176,5 +198,22 @@ export default {
 .volume__pedal {
   width: 100%;
   background: white;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.status {
+  margin-left: 15px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: red;
+}
+
+.status.enabled {
+  background: green;
 }
 </style>

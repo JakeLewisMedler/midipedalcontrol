@@ -40,6 +40,12 @@ export default (ctx, inject) => {
       let command = `001001${pedalId}002${mode}`;
       console.log(command);
       port.send(command);
+    } else if (setting == "type") {
+      let pedalId = pedal.id.toString().padStart(3, "0");
+      let type = pedal.type.toString().padStart(3, "0");
+      let command = `001001${pedalId}003${type}`;
+      console.log(command);
+      port.send(command);
     }
   };
 
@@ -66,8 +72,10 @@ export default (ctx, inject) => {
       let params = {};
       params.id = index + 1;
       params.mode = parseInt(pedalData[0]);
-      params.cc = parseInt(pedalData[1]);
-      params.value = parseInt(pedalData[2]);
+      params.type = parseInt(pedalData[1]);
+      params.enabled = !!parseInt(pedalData[2]);
+      params.cc = parseInt(pedalData[3]);
+      params.value = parseInt(pedalData[4]);
       return params;
     });
   };
