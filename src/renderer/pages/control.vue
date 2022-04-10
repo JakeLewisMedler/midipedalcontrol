@@ -28,7 +28,11 @@
           </div>
           <div>
             <label>Type:</label>
-            <select v-model="pedal.type" @change="updatePedal(pedal, 'type')">
+            <select
+              v-model="pedal.type"
+              :disabled="pedal.mode == 1"
+              @change="updatePedal(pedal, 'type')"
+            >
               <option
                 v-for="(type, index) in typeOptions"
                 :key="index"
