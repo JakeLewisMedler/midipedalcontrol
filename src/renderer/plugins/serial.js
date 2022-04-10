@@ -46,6 +46,12 @@ export default (ctx, inject) => {
       let command = `001001${pedalId}003${type}`;
       console.log(command);
       port.send(command);
+    } else if (setting == "polarity") {
+      let pedalId = pedal.id.toString().padStart(3, "0");
+      let polarity = pedal.polarity.toString().padStart(3, "0");
+      let command = `001001${pedalId}004${polarity}`;
+      console.log(command);
+      port.send(command);
     }
   };
 
@@ -74,8 +80,9 @@ export default (ctx, inject) => {
       params.mode = parseInt(pedalData[0]);
       params.type = parseInt(pedalData[1]);
       params.enabled = !!parseInt(pedalData[2]);
-      params.cc = parseInt(pedalData[3]);
-      params.value = parseInt(pedalData[4]);
+      params.polarity = parseInt(pedalData[3]);
+      params.cc = parseInt(pedalData[4]);
+      params.value = parseInt(pedalData[5]);
       return params;
     });
   };

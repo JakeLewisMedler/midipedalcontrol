@@ -48,6 +48,21 @@
               @change="updatePedal(pedal, 'cc')"
             />
           </div>
+          <div>
+            <label>Polarity:</label>
+            <button
+              :class="`polarity__button ${pedal.polarity ? 'selected' : ''}`"
+              @click="setPolarity(pedal, 1)"
+            >
+              +
+            </button>
+            <button
+              :class="`polarity__button ${!pedal.polarity ? 'selected' : ''}`"
+              @click="setPolarity(pedal, 0)"
+            >
+              -
+            </button>
+          </div>
         </div>
         <div class="card test">
           <h3 v-if="pedal.enabled">Monitor Input</h3>
@@ -116,6 +131,10 @@ export default {
     };
   },
   methods: {
+    setPolarity(pedal, value) {
+      pedal.polarity = value;
+      this.updatePedal(pedal, "polarity");
+    },
     dragstart(e, pedal) {
       var crt = e.target.cloneNode(true);
       crt.style.opacity = 0;
@@ -215,5 +234,18 @@ export default {
 
 .status.enabled {
   background: green;
+}
+
+.polarity__button {
+  border-radius: 5px;
+  border: 1px solid #888;
+  background: white;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  padding: 0;
+}
+.polarity__button.selected {
+  background: rgb(255, 99, 99);
 }
 </style>
