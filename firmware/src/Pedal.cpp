@@ -34,7 +34,6 @@ void Pedal::setupPins(){
 
 void Pedal::setCC(int newCC){
 	_updated = true;
-	setValue(0);
 	cc = newCC;
 }
 
