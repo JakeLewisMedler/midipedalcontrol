@@ -5,6 +5,7 @@ export default (ctx, inject) => {
     "global",
     Vue.observable({
       device: null,
+      debug: false,
     })
   );
 };

@@ -16,6 +16,13 @@
         </td>
       </tr>
     </table>
+    <div class="card settings">
+      <h3>Global Settings</h3>
+      <div>
+        <label>Debug Mode:</label>
+        <input type="checkbox" v-model="$global.debug" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -78,5 +85,15 @@ table th {
   text-align: left;
   background-color: #04aa6d;
   color: white;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  flex-grow: 1;
+}
+.card.settings div {
+  margin-bottom: 6px;
 }
 </style>

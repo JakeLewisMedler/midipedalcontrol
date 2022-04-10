@@ -111,7 +111,9 @@ export default (ctx, inject) => {
       });
       port.receiver = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
       port.receiver.on("data", (data) => {
-        // console.log(data);
+        if (ctx.$global.debug) {
+          console.log(data);
+        }
         if (data[0] != "-") return;
         port.settings = parseStatus(data);
       });
