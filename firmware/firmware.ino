@@ -44,7 +44,7 @@ int count = 0;
 int value = 0;
 
 void loop() {
-  delay(40);
+  delay(20);
   checkSerial();
   for (int i = 0; i < 2; i++){
     pedals[i].checkInput();
