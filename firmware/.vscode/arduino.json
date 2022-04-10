@@ -1,0 +1,6 @@
+{
+    "sketch": "firmware.ino",
+    "board": "arduino:avr:leonardo",
+    "programmer": "arduino:avrispmkii",
+    "port": "/dev/tty.usbmodem01321"
+}

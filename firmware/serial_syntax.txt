@@ -1,0 +1,39 @@
+//serial syntax
+
+// Set Setting
+// Example 1: 001001001001064
+// 1. message type: 001 = setting
+// 2. setting type: 001 = pedal
+// 3. pedal id: 001
+// 4. parameter: 001 = control number
+// 5. value: 064
+
+// Example 2: 001001001002002
+// 1. message type: 001 = setting
+// 2. setting type: 001 = pedal
+// 3. pedal id: 001
+// 4. parameter: 002 = input type
+// 5. value: 001 = switched, 002 = variable
+
+// Test Send
+// Example: 002001001127
+// 1. message type: 002 = test
+// 2. setting type: 001 = pedal
+// 3. pedal id: 001
+// 4. value: 127
+
+// Display Settings
+// Example: 003
+// 1. message type: 003 = display settings
+
+// Load from memory
+// Example: 004
+// 1. message type: 004 = load memory
+
+// Save to memory
+// Example: 005
+// 1. message type: 005 = save memory
+
+// Reset Pedals
+// Example: 006
+// 1. message type: 006 = reset pedals
