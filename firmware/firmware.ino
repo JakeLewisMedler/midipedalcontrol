@@ -4,7 +4,7 @@
 
 String inputString = "";
 int midiChannel = 1;
-Pedal pedals[] = {Pedal(A0, A9, 14, 10),Pedal(A1, A8, 15, 16),Pedal(A2, A7, 7, 3),Pedal(A3, A6, 5, 2)};
+Pedal pedals[] = {Pedal(A9, A8, 5, 7),Pedal(A7, A6, 2, 3),Pedal(A1, A0, A10, 16),Pedal(A3, A2, 14, 15)};
 
 
 void setup() {
@@ -268,7 +268,7 @@ void handleSerialMessage(String message){
   }
   if(messageType==6){
     Serial.println("Restting pedals");
-    Pedal newPedals[] = {Pedal(A0, A9, 14, 10),Pedal(A1, A8, 15, 16),Pedal(A2, A7, 7, 3),Pedal(A3, A6, 5, 2)};
+    Pedal newPedals[] = {Pedal(A9, A8, 5, 7),Pedal(A7, A6, 2, 3),Pedal(A1, A0, A10, 16),Pedal(A3, A2, 14, 15)};
     EEPROM.put(0, newPedals);
     EEPROM.get(0, pedals);
   }
