@@ -25,7 +25,7 @@ yarn build
 # Arduino Code
 
 Includes custom 'pedal' library/class.
-Currently, to set the device's "Serial Number", find the method `getShortName()` and hardcode the new serial inside. It should be 4 digits in length. It is the intention for this to later be set via a separate mididevice provisioning program, which would set and log serial numbers to a global DB.
+Currently, to set the device's "Serial Number", find the method `getShortName()` inside [MIDIUSB.cpp](https://github.com/Jake-Innovate/midipedalcontrol/blob/bb43ec9d8dd00bc4d6df283ca6bee759835d5068/firmware/src/MIDIUSB.cpp#L72) and hardcode the new serial inside. It should be 4 digits in length. It is the intention for this to later be set via a separate mididevice provisioning program, which would set and log serial numbers to a global DB.
 
 # Hardware
 
