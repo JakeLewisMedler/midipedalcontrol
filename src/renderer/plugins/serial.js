@@ -3,8 +3,8 @@ import Vue from "vue";
 const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
 
-let vendorId = "2341";
-let productId = "8036";
+let vendorIds = ["2341"];
+let productIds = ["8036", "8037"];
 export default (ctx, inject) => {
   const getDevices = async () => {
     console.log("getDevices");
@@ -12,7 +12,9 @@ export default (ctx, inject) => {
       let ports = await SerialPort.list();
       let midiPedalDevices = ports
         .filter(
-          (port) => port.vendorId == vendorId && port.productId == productId
+          (port) =>
+            vendorIds.includes(port.vendorId) &&
+            productIds.includes(port.productId)
         )
         .map((device) => {
           return { ...device, connected: false };
