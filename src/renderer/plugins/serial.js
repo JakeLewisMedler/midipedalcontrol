@@ -108,6 +108,9 @@ export default (ctx, inject) => {
       port.updatePedal = (pedal, mode) => updatePedal(port, pedal, mode);
       port.testPedal = (pedal, value) => testPedal(port, pedal, value);
 
+      port.on("error", (err) => {
+        console.error("Port error:", err.message);
+      });
       port.on("close", () => {
         console.log("Port Closed");
       });
@@ -127,6 +130,7 @@ export default (ctx, inject) => {
     if (ctx.$serial.port && ctx.$serial.port.isOpen) {
       ctx.$serial.port.close();
     }
+    ctx.$serial.port = null;
   };
 
   const resetDevice = async (device) => {
@@ -148,14 +152,27 @@ export default (ctx, inject) => {
     port.close();
   };
 
-  inject(
-    "serial",
-    Vue.observable({
-      getDevices,
-      connect,
-      disconnect,
-      resetDevice,
-      port: null,
-    })
-  );
+  const serial = Vue.observable({
+    getDevices,
+    connect,
+    disconnect,
+    resetDevice,
+    port: null,
+  });
+
+  inject("serial", serial);
+
+  // Release the port on window close, reload, or app quit
+  window.addEventListener("beforeunload", () => {
+    if (serial.port && serial.port.isOpen) {
+      serial.port.close();
+    }
+  });
+
+  const { ipcRenderer } = require("electron");
+  ipcRenderer.on("app-before-quit", () => {
+    if (serial.port && serial.port.isOpen) {
+      serial.port.close();
+    }
+  });
 };

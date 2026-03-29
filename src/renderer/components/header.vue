@@ -1,8 +1,16 @@
 <template>
-  <header class="main-header">
-    <nav>
-      <nuxt-link to="/"> <h4>MIDIPedal CONTROL</h4> </nuxt-link>
-    </nav>
+  <header class="app-header">
+    <nuxt-link to="/" class="logo-link">
+      <div class="logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"/>
+          <circle cx="6" cy="18" r="3"/>
+          <circle cx="18" cy="16" r="3"/>
+        </svg>
+      </div>
+      <span class="logo-text">MIDIPedal</span>
+      <span class="logo-badge">CONTROL</span>
+    </nuxt-link>
   </header>
 </template>
 
@@ -13,35 +21,50 @@ export default {
 </script>
 
 <style scoped>
-.main-header {
-  height: 50px;
+.app-header {
+  height: 52px;
   display: flex;
-  background-color: #364758;
+  align-items: center;
+  background: #161822;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 20px;
+  -webkit-app-region: drag;
+  user-select: none;
 }
 
-nav {
-  width: 100%;
+.logo-link {
   display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  -webkit-app-region: no-drag;
+}
+
+.logo-icon {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: white;
 }
 
-nav div {
-  height: 100%;
-  margin: 0 20px;
-  display: flex;
-  align-items: center;
+.logo-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e1e4e8;
+  letter-spacing: -0.3px;
 }
 
-a {
-  font-family: Helvetica, sans-serif;
-  color: white;
-  font-size: 1rem;
-  font-weight: 100;
-}
-
-a:hover {
-  opacity: 0.9;
+.logo-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.12);
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
 }
 </style>
