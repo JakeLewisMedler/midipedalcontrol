@@ -3,7 +3,7 @@ const ICONS_DIR = "build/icons/";
 const windowsOS = {
   win: {
     icon: ICONS_DIR + "icon.icns",
-    publisherName: "michal",
+    publisherName: "littleByte",
     target: "nsis",
   },
 
@@ -43,8 +43,8 @@ const macOS = {
 
 module.exports = {
   productName: "MIDIPedal",
-  appId: "com.cleverboxes.midipedalcontrol",
-  artifactName: "setup-${version}.${ext}",
+  appId: "com.littlebyte.midipedalcontrol",
+  artifactName: "${productName}-${version}-${arch}.${ext}",
   directories: {
     output: "build",
   },
